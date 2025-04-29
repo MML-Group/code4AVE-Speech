@@ -2,6 +2,8 @@
 
 This repository contains the source code for *AVE Speech Dataset: A Comprehensive Benchmark for Multi-Modal Speech Recognition Integrating Audio, Visual, and Electromyographic Signals*.
 
+It will be made publicly available once the related paper has been accepted for publication.
+
 The dataset is available at:
 👉 [AVE-Speech Dataset on Hugging Face](https://huggingface.co/datasets/MML-Group/AVE-Speech)
 
