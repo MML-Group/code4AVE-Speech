@@ -1,6 +1,6 @@
 # AVE Speech Dataset – Source Code
 
-This repository contains the source code for *AVE Speech Dataset: A Comprehensive Benchmark for Multi-Modal Speech Recognition Integrating Audio, Visual, and Electromyographic Signals*.
+This repository contains the source code for *AVE Speech: A Comprehensive Multi-Modal Dataset for Speech Recognition Integrating Audio, Visual, and Electromyographic Signals*.
 
 It will be made publicly available soon.
 
