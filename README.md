@@ -10,13 +10,10 @@ The dataset is available at:
 # Citation
 If you use the source code in your work, please cite it as:
 ```
-@misc{zhou2025avespeechdatasetcomprehensive,
-      title={AVE Speech Dataset: A Comprehensive Benchmark for Multi-Modal Speech Recognition Integrating Audio, Visual, and Electromyographic Signals}, 
-      author={Dongliang Zhou and Yakun Zhang and Jinghan Wu and Xingyu Zhang and Liang Xie and Erwei Yin},
-      year={2025},
-      eprint={2501.16780},
-      archivePrefix={arXiv},
-      primaryClass={cs.SD},
-      url={https://arxiv.org/abs/2501.16780}, 
+@article{zhou2025ave,
+  title={AVE Speech: A Comprehensive Multi-Modal Dataset for Speech Recognition Integrating Audio, Visual, and Electromyographic Signals},
+  author={Zhou, Dongliang and Zhang, Yakun and Wu, Jinghan and Zhang, Xingyu and Xie, Liang and Yin, Erwei},
+  journal={IEEE Transactions on Human-Machine Systems},
+  year={2025}
 }
 ```
