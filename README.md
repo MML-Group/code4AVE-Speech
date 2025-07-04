@@ -17,3 +17,6 @@ If you use the source code in your work, please cite it as:
   year={2025}
 }
 ```
+
+# Implementation
+Included codelines can be used for two speech recognition tasks, i.e., word-level continuous speech recognition (CSR) and sentence-level speech classification (CLS). 
