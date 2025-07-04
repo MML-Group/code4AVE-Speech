@@ -19,4 +19,4 @@ If you use the source code in your work, please cite it as:
 ```
 
 # Implementation
-Included codelines can be used for two speech recognition tasks, i.e., word-level continuous speech recognition (CSR) and sentence-level speech classification (CLS). 
+Included codelines can be used for two speech recognition tasks, i.e., word-level continuous speech recognition (CSR) and sentence-level speech classification (CLS). Dataset preparation steps for mentioned tasks can be found in the CLS_fusion and CSR_fusion folds, corresponding changes can be made to fulfill particular requirements upon your settings.  
