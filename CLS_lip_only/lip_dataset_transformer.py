@@ -8,8 +8,6 @@ import librosa
 from scipy import signal
 import torch
 import cv2
-from python_speech_features import mfcc
-# from lpctorch import LPCCoefficients
 from matplotlib.pyplot import figure
 from matplotlib import pyplot as plt
 from lip_cvtransforms import *
@@ -98,14 +96,10 @@ class MyDataset():
         if set == 'test':
             return tstList
 
-        # completeList : 列表保存 ( label ，文件绝对路径 )
-
     def __init__(self, set, directory):
         self.set = set
-        # file_list : 文件列表
         self.file_list = self.build_file_list(set, directory)
 
-        # 打印该类型数据集（ 训练 or 测试 ）的样本总数
         print('Total num of samples: ', len(self.file_list))
         
 
