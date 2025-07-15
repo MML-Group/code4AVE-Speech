@@ -208,7 +208,7 @@ def main():
     parser.add_argument('--workers', default=0, type=int, help='number of data loading workers (default: 4)')
     parser.add_argument('--epochs', default=20, type=int, help='number of total epochs')
     parser.add_argument('--interval', default=10, type=int, help='display interval')
-    parser.add_argument('--test', default=True, action='store_true', help='perform on the test phase')
+    parser.add_argument('--test', default=False, action='store_true', help='perform on the test phase')
     args = parser.parse_args()
     
     os.environ['CUDA_VISIBLE_DEVICES'] = '0'
