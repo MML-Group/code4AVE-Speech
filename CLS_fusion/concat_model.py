@@ -28,7 +28,7 @@ class GRU(nn.Module):
         return out
 
 
-def lipreading(mode, inputDim=2048, hiddenDim=2048, nLayers=2, nClasses=500, frameLen=29, every_frame=True):
+def fusion(mode, inputDim=2048, hiddenDim=2048, nLayers=2, nClasses=500, frameLen=29, every_frame=True):
     if mode == 'backendGRU' or mode == 'finetuneGRU':
         model = GRU(inputDim, hiddenDim, nLayers, nClasses, every_frame)
     print('\n'+mode+' model has been built')
