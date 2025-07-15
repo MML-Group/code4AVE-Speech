@@ -9,7 +9,6 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
-# from torchvision import datasets
 from torch.autograd import Variable
 from lr_scheduler import *
 from emg_model import *
@@ -206,9 +205,9 @@ def test_adam(args, use_gpu):
 
 def main():
     # Settings
-    parser = argparse.ArgumentParser(description='Pytorch Audio-only BBC-LRW Example')
+    parser = argparse.ArgumentParser(description='AVE Speech Dataset')
     parser.add_argument('--nClasses', default=101, type=int, help='the number of classes')
-    parser.add_argument('--path', default='/ai/exp2/fusion_baseline_231205_new/emg_only/finetuneGRU_every_frame/finetuneGRU_245.pt', help='path to model')
+    parser.add_argument('--path', default='', help='path to model')
     parser.add_argument('--dataset', default='emg', help='path to dataset')
     parser.add_argument('--mode', default='finetuneGRU', help='temporalConv, backendGRU, finetuneGRU')
     parser.add_argument('--every-frame', default=True, action='store_true', help='predicition based on every frame')
@@ -217,7 +216,7 @@ def main():
     parser.add_argument('--workers', default=0, type=int, help='number of data loading workers (default: 4)')
     parser.add_argument('--epochs', default=200, type=int, help='number of total epochs')
     parser.add_argument('--interval', default=10, type=int, help='display interval')
-    parser.add_argument('--test', default=True, action='store_true', help='perform on the test phase')
+    parser.add_argument('--test', default=False, action='store_true', help='perform on the test phase')
     args = parser.parse_args()
      
     os.environ['CUDA_VISIBLE_DEVICES'] = '0'
