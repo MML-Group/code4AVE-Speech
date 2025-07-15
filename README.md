@@ -18,6 +18,18 @@ Included codelines can be used for two speech recognition tasks, i.e., word-leve
 
 Dataset preparation steps for mentioned tasks can be found in the CLS_fusion and CSR_fusion folders, and corresponding changes can be made to fulfill particular requirements upon your settings.  
 
+## Main Modules
+
+- **CLS_**: Sentence-level speech classification with audio, EMG, visual and fusion models.
+- **CSR_**: Word-level continuous speech recognition with audio, EMG, visual and fusion models.
+
+## Environment Setup
+conda create -n ave_speech python=3.8 -y
+conda activate ave_speech
+
+git clone https://github.com/MML-Group/code4AVE-Speech.git
+cd code4AVE-Speech/CLS_fusion
+
 ## Citation
 If you use the source code in your work, please cite it as:
 ```
