@@ -1,0 +1,10 @@
+torch>=1.7
+torchvision
+torchaudio
+numpy
+scipy
+matplotlib
+opencv-python
+librosa
+scikit-learn
+tqdm
