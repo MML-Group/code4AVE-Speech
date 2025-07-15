@@ -11,7 +11,6 @@ from scipy import signal
 import torch
 import cv2
 from python_speech_features import mfcc
-# from lpctorch import LPCCoefficients
 from matplotlib.pyplot import figure
 from matplotlib import pyplot as plt
 import json
@@ -59,7 +58,7 @@ class MyDataset():
 
 
         # training dataset
-        for i in range(70): ## pay attention to the subject number !!!
+        for i in range(70): 
             audio_dataset = audio_subject_list[i]
             audio_dataset = str(audio_dataset).replace('home', 'ai/memory')
             sessions = os.listdir(audio_dataset)
@@ -112,7 +111,6 @@ class MyDataset():
         if set == 'test':
             return tstList
 
-        # completeList : 列表保存 ( label ，文件绝对路径 )
     
     @staticmethod
     def txt2arr(txt, start):
@@ -155,10 +153,8 @@ class MyDataset():
 
     def __init__(self, set, directory):
         self.set = set
-        # file_list : 文件列表
         self.file_list = self.build_file_list(set, directory)
 
-        # 打印该类型数据集（ 训练 or 测试 ）的样本总数
         print('Total num of samples: ', len(self.file_list))
         
     def _load_anno(self, label):
@@ -176,17 +172,13 @@ class MyDataset():
 
         audio, fs = librosa.load(self.file_list[idx][1])
         audio = add_noise(audio)
-        # audio = mfcc(audio)
         audio = Audio_MFSC(fs,audio)
-        # audio = LPCCoefficients(audio)
-        # print('sampling rate:', fs) fs = 22050
-
         label = int(self.file_list[idx][0])
         anno = self._load_anno(label)
         audio = torch.FloatTensor(audio[np.newaxis, :])
-        audio_len = 16 ## sequence length after conv
+        audio_len = 16 
         anno_len = anno.shape[0]
-        anno_pad = self._padding(anno, 5) ## max_length = 5
+        anno_pad = self._padding(anno, 5) 
 
         return audio, torch.LongTensor(anno_pad), anno_len, audio_len
 
