@@ -198,11 +198,7 @@ class EMGNet(nn.Module):
         x = self.fronted2D5(x)
         x = self.fronted2D6(x)
         x = self.fronted2D7(x)
-        # x = x.view(-1, 64, x.size(3))
-        # x = x.contiguous()
-        # x = self.fc(x)
-        # x = self.resnet18(x)
-        # x = self.dropout(x)
+     
         
         if self.mode == 'temporalConv':
             x = x.view(batch_size, -1, self.inputDim)
@@ -255,11 +251,3 @@ def emg_model(mode, inputDim=256, hiddenDim=512, nClasses=101, frameLen=36, ever
         return model
 
 
-if __name__ == "__main__":
-    model = emg_model('finetuneGRU', inputDim=256, hiddenDim=512, nClasses=101, frameLen=36, every_frame=True)
-    x = torch.randn((16,6,36,36))
-    y = model(x)
-    # y = torch.mean(y, 1)
-    print(y.size())
-    # torch.Size([8, 120, 512])
-    # torch.Size([8, 240, 256])ni'ji'd
