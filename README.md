@@ -30,7 +30,6 @@ conda activate ave_speech
 
 git clone https://github.com/MML-Group/code4AVE-Speech.git
 
-cd code4AVE-Speech/CLS_fusion
 
 ## Citation
 If you use the source code in your work, please cite it as:
