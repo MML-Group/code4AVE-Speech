@@ -25,9 +25,11 @@ Dataset preparation steps for mentioned tasks can be found in the CLS_fusion and
 
 ## Environment Setup
 conda create -n ave_speech python=3.8 -y
+
 conda activate ave_speech
 
 git clone https://github.com/MML-Group/code4AVE-Speech.git
+
 cd code4AVE-Speech/CLS_fusion
 
 ## Citation
