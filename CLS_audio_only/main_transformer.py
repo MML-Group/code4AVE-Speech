@@ -9,7 +9,6 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
-# from torchvision import datasets
 from torch.autograd import Variable
 from lr_scheduler import *
 from model_transformer import *
@@ -105,7 +104,7 @@ def train_test(model, dset_loaders, criterion, epoch, phase, optimizer, args, lo
             epoch,
             running_loss / len(dset_loaders[phase].dataset),
             running_corrects / len(dset_loaders[phase].dataset))+'\n')
-        torch.save(model.state_dict(), save_path+'/'+args.mode+'_'+ 'audio_' +str(epoch+11)+'.pt')
+        torch.save(model.state_dict(), save_path+'/'+args.mode+'_'+ 'audio_' +str(epoch+1)+'.pt')
         return model
     if phase == 'val' or phase == 'test':
         with torch.no_grad():
@@ -143,8 +142,8 @@ def train_test(model, dset_loaders, criterion, epoch, phase, optimizer, args, lo
 
 
 def test_adam(args, use_gpu):
-
-    save_path = '/ai/exp3/fusion_baseline_231205_new/audio_only/' + args.mode + '_every_frame'
+    # save path can be changed
+    save_path = '/ai/exp3/fusion_baseline_231205_new/audio_only/' + args.mode + '_every_frame' 
 
     if not os.path.isdir(save_path):
         os.mkdir(save_path)
@@ -194,18 +193,18 @@ def test_adam(args, use_gpu):
 
 def main():
     # Settings
-    parser = argparse.ArgumentParser(description='Pytorch Audio-only Speech Recognition')
+    parser = argparse.ArgumentParser(description='AVE Speech Dataset')
     parser.add_argument('--nClasses', default=101, type=int, help='the number of classes')
-    parser.add_argument('--path', default='/ai/exp3/fusion_baseline_231205_new/audio_only/finetuneGRU_every_frame/finetuneGRU_audio_34.pt', help='path to model')
+    parser.add_argument('--path', default='', help='path to model')
     parser.add_argument('--dataset', default='audio', help='path to dataset')
     parser.add_argument('--mode', default='finetuneGRU', help='temporalConv, backendGRU, finetuneGRU')
     parser.add_argument('--every-frame', default=True, action='store_true', help='predicition based on every frame')
-    parser.add_argument('--lr', default=3e-5, type=float, help='initial learning rate')
+    parser.add_argument('--lr', default=3e-4, type=float, help='initial learning rate')
     parser.add_argument('--batch-size', default=72, type=int, help='mini-batch size (default: 36)')
     parser.add_argument('--workers', default=0, type=int, help='number of data loading workers (default: 4)')
     parser.add_argument('--epochs', default=250, type=int, help='number of total epochs')
     parser.add_argument('--interval', default=10, type=int, help='display interval')
-    parser.add_argument('--test', default=True, action='store_true', help='perform on the test phase')
+    parser.add_argument('--test', default=False, action='store_true', help='perform on the test phase')
     args = parser.parse_args()
     
     os.environ['CUDA_VISIBLE_DEVICES'] = '0'
