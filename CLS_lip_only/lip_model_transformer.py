@@ -19,9 +19,9 @@ class GRU(nn.Module):
         h0 = Variable(torch.zeros(self.num_layers*2, x.size(0), self.hidden_size))
         out, _ = self.gru(x, h0)
         if self.every_frame:
-            out = self.fc(out)  # predicitions based on every time step
+            out = self.fc(out)  
         else:
-            out = self.fc(out[:, -1, :])  # predictions based on the last time step
+            out = self.fc(out[:, -1, :])  
         return out
 
 
