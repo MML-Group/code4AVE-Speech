@@ -7,14 +7,13 @@ import numpy as np
 import librosa
 import torch
 from python_speech_features import mfcc
-# from lpctorch import LPCCoefficients
 from matplotlib.pyplot import figure
 from matplotlib import pyplot as plt
 
 
 def add_noise(signal):
     SNR = -10
-    noise = np.random.randn(signal.shape[0]) # 高斯白噪声
+    noise = np.random.randn(signal.shape[0]) 
     noise = noise - np.mean(noise)
     signal_power = np.linalg.norm(signal) ** 2 / signal.size
     noise_variance = signal_power / np.power(10, (SNR / 10))
@@ -95,14 +94,10 @@ class MyDataset():
         if set == 'test':
             return tstList
 
-        # completeList : 列表保存 ( label ，文件绝对路径 )
-
     def __init__(self, set, directory):
         self.set = set
-        # file_list : 文件列表
         self.file_list = self.build_file_list(set, directory)
 
-        # 打印该类型数据集（ 训练 or 测试 ）的样本总数
         print('Total num of samples: ', len(self.file_list))
         
 
@@ -110,10 +105,7 @@ class MyDataset():
 
         audio, fs = librosa.load(self.file_list[idx][1])
         audio = add_noise(audio)
-        # audio = mfcc(audio)
         audio = get_MFSC(fs,audio)
-        # audio = LPCCoefficients(audio)
-        # print('sampling rate:', fs) fs = 22050
 
 
         label = int(self.file_list[idx][0])
