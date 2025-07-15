@@ -11,7 +11,6 @@ from scipy import signal
 import torch
 import cv2
 from python_speech_features import mfcc
-# from lpctorch import LPCCoefficients
 from matplotlib.pyplot import figure
 from matplotlib import pyplot as plt
 from cvtransforms import *
@@ -176,10 +175,6 @@ class MyDataset():
                     tstList.append(entry)
 
 
-
-        # print(trnList[0], trnList[-1])
-        # print(valList[0], valList[-1])
-        # print(tstList[0], tstList[-1])
         random.shuffle(trnList)
         random.shuffle(tstList)
         random.shuffle(valList)
@@ -191,14 +186,10 @@ class MyDataset():
         if set == 'test':
             return tstList
 
-        # completeList : 列表保存 ( label ，文件绝对路径 )
-
     def __init__(self, set, directory):
         self.set = set
-        # file_list : 文件列表
         self.file_list = self.build_file_list(set, directory)
 
-        # 打印该类型数据集（ 训练 or 测试 ）的样本总数
         print('Total num of samples: ', len(self.file_list))
         
 
@@ -206,10 +197,8 @@ class MyDataset():
 
         audio, fs = librosa.load(self.file_list[idx][2])
         audio = add_noise(audio)
-        # audio = mfcc(audio)
         audio = Audio_MFSC(fs,audio)
-        # audio = LPCCoefficients(audio)
-        # print('sampling rate:', fs) fs = 22050
+
         emg = sio.loadmat(self.file_list[idx][3])
         emg = np.expand_dims(emg["data"], axis=0)
         emg = filter(emg)
