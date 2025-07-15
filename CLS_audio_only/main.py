@@ -9,12 +9,10 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
-# from torchvision import datasets
 from torch.autograd import Variable
 from lr_scheduler import *
 from model import *
 from audio_dataset import *
-# os.environ['CUDA_VISIBLE_DEVICES'] = '3'
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -199,9 +197,9 @@ def test_adam(args, use_gpu):
 
 def main():
     # Settings
-    parser = argparse.ArgumentParser(description='Pytorch Audio-only Speech Recognition')
+    parser = argparse.ArgumentParser(description='AVE Speech Dataset')
     parser.add_argument('--nClasses', default=101, type=int, help='the number of classes')
-    parser.add_argument('--path', default='/ai/benchmark/fusion_baseline_231205_new/audio_only/finetuneGRU_67.pt', help='path to model')
+    parser.add_argument('--path', default='', help='path to model')
     parser.add_argument('--dataset', default='audio', help='path to dataset')
     parser.add_argument('--mode', default='finetuneGRU', help='temporalConv, backendGRU, finetuneGRU')
     parser.add_argument('--every-frame', default=True, action='store_true', help='predicition based on every frame')
