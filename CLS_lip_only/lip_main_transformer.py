@@ -9,7 +9,6 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
-# from torchvision import datasets
 from torch.autograd import Variable
 from lr_scheduler import *
 from lip_model_transformer import *
@@ -200,7 +199,7 @@ def test_adam(args, use_gpu):
 
 def main():
     # Settings
-    parser = argparse.ArgumentParser(description='Pytorch Visual-only')
+    parser = argparse.ArgumentParser(description='AVE Speech Dataset')
     parser.add_argument('--nClasses', default=101, type=int, help='the number of classes')
     parser.add_argument('--path', default='', help='path to model')
     parser.add_argument('--dataset', default='video', help='path to dataset')
