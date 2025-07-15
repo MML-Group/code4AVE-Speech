@@ -250,7 +250,7 @@ def test_adam(args, use_gpu):
 
 def main():
     # Settings
-    parser = argparse.ArgumentParser(description='Pytorch EVA speech recognition')
+    parser = argparse.ArgumentParser(description='AVE Speech Dataset')
     parser.add_argument('--nClasses', default=101, type=int, help='the number of classes')
     parser.add_argument('--audio-path', default='', help='path to pre-trained audio model')
     parser.add_argument('--lip-path', default='', help='path to pre-trained lip model')
