@@ -19,15 +19,15 @@ from cvtransforms import *
 
 # audio data preprocessing
 
-# def add_noise(signal):
-#     SNR = -10
-#     noise = np.random.randn(signal.shape[0])
-#     noise = noise - np.mean(noise)
-#     signal_power = np.linalg.norm(signal) ** 2 / signal.size
-#     noise_variance = signal_power / np.power(10, (SNR / 10))
-#     noise = (np.sqrt(noise_variance) / np.std(noise)) * noise
-#     signal_noise = noise + signal
-#     return signal_noise
+def add_noise(signal):
+    SNR = -10
+    noise = np.random.randn(signal.shape[0])
+    noise = noise - np.mean(noise)
+    signal_power = np.linalg.norm(signal) ** 2 / signal.size
+    noise_variance = signal_power / np.power(10, (SNR / 10))
+    noise = (np.sqrt(noise_variance) / np.std(noise)) * noise
+    signal_noise = noise + signal
+    return signal_noise
 
 
 def Audio_MFSC(fs, x):
@@ -44,11 +44,11 @@ def Audio_MFSC(fs, x):
 
 def filter(raw_data):
     fs=1000
-    b1, a1 = signal.iirnotch(50, 30, fs)    # 50 Hz 陷波器参数
+    b1, a1 = signal.iirnotch(50, 30, fs) 
     b2, a2 = signal.iirnotch(150, 30, fs)
     b3, a3 = signal.iirnotch(250, 30, fs)
     b4, a4 = signal.iirnotch(350, 30, fs)
-    b5, a5 = signal.butter(4, [10/(fs/2), 400/(fs/2)], 'bandpass')  # 10-400 Hz 巴特沃斯带通滤波器参数
+    b5, a5 = signal.butter(4, [10/(fs/2), 400/(fs/2)], 'bandpass') 
 
     x = signal.filtfilt(b1, a1, raw_data, axis=1)
     x = signal.filtfilt(b2, a2, x, axis=1)
@@ -62,9 +62,9 @@ def EMG_MFSC(x):
     n_mels = 36
     sr = 1000
     channel_list = []
-    for j in range(x.shape[-1]):                             # 通道数
+    for j in range(x.shape[-1]):                            
         mfsc_x = np.zeros((x.shape[0], 36, n_mels))
-        for i in range(x.shape[0]):                          # 样本数
+        for i in range(x.shape[0]):                         
 #             norm_x = x[i, :, j]/np.max(abs(x[i, :, j]))
             norm_x = np.asfortranarray(x[i, :, j])
             tmp = librosa.feature.melspectrogram(y=norm_x, sr=sr, n_mels=n_mels, n_fft=200, hop_length=50)
@@ -80,7 +80,7 @@ def EMG_MFSC(x):
     data_x = data_x.transpose(0,3,1,2)
 
 
-    return data_x # ()
+    return data_x 
 
 
 
@@ -114,14 +114,6 @@ class MyDataset():
         valList = []
         tstList = []
 
-        # audio_subject_list = np.load('/ai/exp3/fusion_baseline_231205_new/audio_subject.npy')
-        # audio_subject_list = audio_subject_list.tolist()
-
-        # lip_subject_list = np.load('/ai/exp3/fusion_baseline_231205_new/lip_subject.npy')
-        # lip_subject_list = lip_subject_list.tolist()
-
-        # emg_subject_list = np.load('/ai/exp3/fusion_baseline_231205_new/emg_subject.npy')
-        # emg_subject_list = emg_subject_list.tolist()
 
         audio_subject_list = np.load('/ai/mm/audio_subject.npy')
         audio_subject_list = audio_subject_list.tolist()
@@ -134,57 +126,6 @@ class MyDataset():
         emg_subject_list = np.load('/ai/mm/emg_subject.npy')
         emg_subject_list = emg_subject_list.tolist()
 
-        
-
-        # # training dataset
-        # for i in range(70):
-        #     audio_dataset = audio_subject_list[i]
-        #     lip_dataset = lip_subject_list[i]
-        #     emg_dataset = emg_subject_list[i]
-        #     sessions = os.listdir(emg_dataset)
-        #     for session in sessions:
-        #         samples = os.listdir(emg_dataset + '/' + str(session))
-        #         for sample in samples:
-        #             label = sample.split('.')[0]
-        #             emgpath = emg_dataset + '/' + session + '/' + sample
-        #             videopath = lip_dataset + '/' + session + '/' + str(label) + '.avi'
-        #             audiopath = audio_dataset + '/' + session + '/' + str(label) + '.wav'
-        #             entry = (label, videopath, audiopath, emgpath)
-        #             trnList.append(entry)
-
-
-        # # validation dataset
-        # for i in range(10):
-        #     audio_dataset = audio_subject_list[i+70]
-        #     lip_dataset = lip_subject_list[i+70]
-        #     emg_dataset = emg_subject_list[i+70]
-        #     sessions = os.listdir(emg_dataset)
-        #     for session in sessions:
-        #         samples = os.listdir(emg_dataset + '/' + str(session))
-        #         for sample in samples:
-        #             label = sample.split('.')[0]
-        #             emgpath = emg_dataset + '/' + session + '/' + sample
-        #             videopath = lip_dataset + '/' + session + '/' + str(label) + '.avi'
-        #             audiopath = audio_dataset + '/' + session + '/' + str(label) + '.wav'
-        #             entry = (label, videopath, audiopath, emgpath)
-        #             valList.append(entry)
-
-
-        # # testing dataset
-        # for i in range(20):
-        #     audio_dataset = audio_subject_list[i+80]
-        #     lip_dataset = lip_subject_list[i+80]
-        #     emg_dataset = emg_subject_list[i+80]
-        #     sessions = os.listdir(emg_dataset)
-        #     for session in sessions:
-        #         samples = os.listdir(emg_dataset + '/' + str(session))
-        #         for sample in samples:
-        #             label = sample.split('.')[0]
-        #             emgpath = emg_dataset + '/' + session + '/' + sample
-        #             videopath = lip_dataset + '/' + session + '/' + str(label) + '.avi'
-        #             audiopath = audio_dataset + '/' + session + '/' + str(label) + '.wav'
-        #             entry = (label, videopath, audiopath, emgpath)
-        #             tstList.append(entry)
 
         # training dataset
         for i in range(70):
@@ -246,10 +187,6 @@ class MyDataset():
                     tstList.append(entry)
 
 
-
-        # print(trnList[0], trnList[-1])
-        # print(valList[0], valList[-1])
-        # print(tstList[0], tstList[-1])
         random.shuffle(trnList)
         random.shuffle(tstList)
         random.shuffle(valList)
@@ -261,25 +198,18 @@ class MyDataset():
         if set == 'test':
             return tstList
 
-        # completeList : 列表保存 ( label ，文件绝对路径 )
-
     def __init__(self, set, directory):
         self.set = set
-        # file_list : 文件列表
         self.file_list = self.build_file_list(set, directory)
 
-        # 打印该类型数据集（ 训练 or 测试 ）的样本总数
         print('Total num of samples: ', len(self.file_list))
         
 
     def __getitem__(self, idx):
 
         audio, fs = librosa.load(self.file_list[idx][2])
-        # audio = add_noise(audio)
-        # audio = mfcc(audio)
         audio = Audio_MFSC(fs,audio)
-        # audio = LPCCoefficients(audio)
-        # print('sampling rate:', fs) fs = 22050
+        
         emg = sio.loadmat(self.file_list[idx][3])
         emg = np.expand_dims(emg["data"], axis=0)
         emg = filter(emg)
