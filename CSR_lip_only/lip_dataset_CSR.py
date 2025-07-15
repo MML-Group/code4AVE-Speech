@@ -11,7 +11,6 @@ from scipy import signal
 import torch
 import cv2
 from python_speech_features import mfcc
-# from lpctorch import LPCCoefficients
 from matplotlib.pyplot import figure
 from matplotlib import pyplot as plt
 from lip_cvtransforms import *
@@ -115,8 +114,6 @@ class MyDataset():
             return valList
         if set == 'test':
             return tstList
-
-        # completeList : 列表保存 ( label ，文件绝对路径 )
     
     @staticmethod
     def txt2arr(txt, start):
@@ -159,10 +156,8 @@ class MyDataset():
 
     def __init__(self, set, directory):
         self.set = set
-        # file_list : 文件列表
         self.file_list = self.build_file_list(set, directory)
 
-        # 打印该类型数据集（ 训练 or 测试 ）的样本总数
         print('Total num of samples: ', len(self.file_list))
         
     def _load_anno(self, label):
@@ -188,7 +183,7 @@ class MyDataset():
         lip = torch.FloatTensor(lip)
         lip_len = 60
         anno_len = anno.shape[0]
-        anno_pad = self._padding(anno, 5) ## max_length = 5
+        anno_pad = self._padding(anno, 5)
 
 
 
