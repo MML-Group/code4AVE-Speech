@@ -18,7 +18,7 @@ from lr_scheduler import *
 from audio_only.model import audio_model as audio_model_sr
 from video_only.lip_model import lipreading as video_model_sr
 from emg_only.emg_model import emg_model as emg_model_sr
-from concat_model import lipreading as concat_model_sr
+from concat_model import fusion as concat_model_sr
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -94,9 +94,9 @@ def train_test(audio_model, lip_model, emg_model, concat_model, dset_loaders, cr
             audio, emg, lip = audio.float(), emg.float(), lip.float()
             audio, emg, lip, targets = Variable(audio.cuda()), Variable(emg.cuda()), Variable(lip.cuda()), Variable(targets.cuda())
 
-            audio_outputs = audio_model(audio) # 8, 16, 101
-            video_outputs = lip_model(lip) # 8, 60, 101
-            emg_outputs = emg_model(emg) # 8, 16, 101
+            audio_outputs = audio_model(audio) 
+            video_outputs = lip_model(lip) 
+            emg_outputs = emg_model(emg) 
 
             inputs = torch.cat((audio_outputs, video_outputs, emg_outputs), dim=1)
             outputs = concat_model(inputs)
@@ -244,7 +244,6 @@ def test_adam(args, use_gpu):
         train_test(audio_model, lip_model, emg_model, concat_model, dset_loaders, criterion, 0, 'test', optimizer, args, logger, use_gpu, save_path)
         return
     for epoch in range(0,args.epochs):
-        # scheduler.step(epoch)
         audio_model, lip_model, emg_model, concat_model = train_test(audio_model, lip_model, emg_model, concat_model, dset_loaders, criterion, epoch, 'train', optimizer, args, logger, use_gpu, save_path)
         train_test(audio_model, lip_model, emg_model, concat_model, dset_loaders, criterion, epoch, 'val', optimizer, args, logger, use_gpu, save_path)
 
@@ -253,10 +252,10 @@ def main():
     # Settings
     parser = argparse.ArgumentParser(description='Pytorch EVA speech recognition')
     parser.add_argument('--nClasses', default=101, type=int, help='the number of classes')
-    parser.add_argument('--audio-path', default='/ai/exp2/fusion_baseline_231205_new/audio_only/finetuneGRU_67.pt', help='path to pre-trained audio model')
-    parser.add_argument('--lip-path', default='/ai/exp2/fusion_baseline_231205_new/video_only/finetuneGRU_every_frame/finetuneGRU_0906_22.pt', help='path to pre-trained lip model')
-    parser.add_argument('--emg-path', default='/ai/exp2/fusion_baseline_231205_new/emg_only/finetuneGRU_every_frame/finetuneGRU_245.pt', help='path to pre-trained emg model')
-    parser.add_argument('--concat-path', default='/ai/exp2/fusion_baseline_231205_new/finetuneGRU_every_frame/BGRU_finetuneGRU_3.pt', help='path to pre-trained concat model')
+    parser.add_argument('--audio-path', default='', help='path to pre-trained audio model')
+    parser.add_argument('--lip-path', default='', help='path to pre-trained lip model')
+    parser.add_argument('--emg-path', default='', help='path to pre-trained emg model')
+    parser.add_argument('--concat-path', default='', help='path to pre-trained concat model')
     parser.add_argument('--dataset', default='', help='path to dataset')
     parser.add_argument('--mode', default='finetuneGRU', help='temporalConv, backendGRU, finetuneGRU')
     parser.add_argument('--every-frame', default=True, action='store_true', help='predicition based on every frame')
@@ -265,7 +264,7 @@ def main():
     parser.add_argument('--workers', default=0, type=int, help='number of data loading workers (default: 4)')
     parser.add_argument('--epochs', default=50, type=int, help='number of total epochs')
     parser.add_argument('--interval', default=10, type=int, help='display interval')
-    parser.add_argument('--test', default=True, action='store_true', help='perform on the test phase')
+    parser.add_argument('--test', default=False, action='store_true', help='perform on the test phase')
     args = parser.parse_args()
 
     os.environ['CUDA_VISIBLE_DEVICES'] = '0'
