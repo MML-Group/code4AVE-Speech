@@ -9,7 +9,6 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
-# from torchvision import datasets
 from torch.autograd import Variable
 from lip_model_CSR import lipreading as video_model_sr
 from lip_dataset_CSR import *
@@ -179,7 +178,7 @@ def test_adam(args, use_gpu):
     dset_loaders, dset_sizes = data_loader(args)
     
     if args.test:
-        # train_test(model, dset_loaders, criterion, 0, 'val', optimizer, args, logger, use_gpu, save_path)
+        train_test(model, dset_loaders, criterion, 0, 'val', optimizer, args, logger, use_gpu, save_path)
         train_test(model, dset_loaders, criterion, 0, 'test', optimizer, args, logger, use_gpu, save_path)
         return
     for epoch in range(0,args.epochs):
@@ -189,9 +188,9 @@ def test_adam(args, use_gpu):
 
 def main():
     # Settings
-    parser = argparse.ArgumentParser(description='Pytorch Audio-only BBC-LRW Example')
+    parser = argparse.ArgumentParser(description='AVE Speech Dataset')
     parser.add_argument('--nClasses', default=101, type=int, help='the number of classes')
-    parser.add_argument('--path', default='/ai/mm/lip_only/finetuneGRU_lip_CSR_WER_25.35.pt', help='path to model')
+    parser.add_argument('--path', default='', help='path to model')
     parser.add_argument('--dataset', default='video', help='path to dataset')
     parser.add_argument('--mode', default='finetuneGRU', help='temporalConv, backendGRU, finetuneGRU')
     parser.add_argument('--every-frame', default=True, action='store_true', help='predicition based on every frame')
@@ -200,7 +199,7 @@ def main():
     parser.add_argument('--workers', default=0, type=int, help='number of data loading workers (default: 4)')
     parser.add_argument('--epochs', default=30, type=int, help='number of total epochs')
     parser.add_argument('--interval', default=10, type=int, help='display interval')
-    parser.add_argument('--test', default=True, action='store_true', help='perform on the test phase')
+    parser.add_argument('--test', default=False, action='store_true', help='perform on the test phase')
     args = parser.parse_args()
     
     os.environ['CUDA_VISIBLE_DEVICES'] = '0'
