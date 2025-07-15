@@ -11,7 +11,6 @@ from scipy import signal
 import torch
 import cv2
 from python_speech_features import mfcc
-# from lpctorch import LPCCoefficients
 from matplotlib.pyplot import figure
 from matplotlib import pyplot as plt
 import json
@@ -21,11 +20,11 @@ import editdistance
 
 def filter(raw_data):
     fs=1000
-    b1, a1 = signal.iirnotch(50, 30, fs)    # 50 Hz 陷波器参数
+    b1, a1 = signal.iirnotch(50, 30, fs)    
     b2, a2 = signal.iirnotch(150, 30, fs)
     b3, a3 = signal.iirnotch(250, 30, fs)
     b4, a4 = signal.iirnotch(350, 30, fs)
-    b5, a5 = signal.butter(4, [10/(fs/2), 400/(fs/2)], 'bandpass')  # 10-400 Hz 巴特沃斯带通滤波器参数
+    b5, a5 = signal.butter(4, [10/(fs/2), 400/(fs/2)], 'bandpass') 
 
     x = signal.filtfilt(b1, a1, raw_data, axis=1)
     x = signal.filtfilt(b2, a2, x, axis=1)
@@ -39,9 +38,9 @@ def EMG_MFSC(x):
     n_mels = 36
     sr = 1000
     channel_list = []
-    for j in range(x.shape[-1]):                             # 通道数
+    for j in range(x.shape[-1]):                            
         mfsc_x = np.zeros((x.shape[0], 36, n_mels))
-        for i in range(x.shape[0]):                          # 样本数
+        for i in range(x.shape[0]):                     
 #             norm_x = x[i, :, j]/np.max(abs(x[i, :, j]))
             norm_x = np.asfortranarray(x[i, :, j])
             tmp = librosa.feature.melspectrogram(y=norm_x, sr=sr, n_mels=n_mels, n_fft=200, hop_length=50)
@@ -57,7 +56,7 @@ def EMG_MFSC(x):
     data_x = data_x.transpose(0,3,1,2)
 
 
-    return data_x # ()
+    return data_x
 
 
 
@@ -172,14 +171,10 @@ class MyDataset():
         cer = [1.0*editdistance.eval(p[0], p[1])/len(p[1]) for p in zip(predict, truth)]
         return cer
 
-        # completeList : 列表保存 ( label ，文件绝对路径 )
-
     def __init__(self, set, directory):
         self.set = set
-        # file_list : 文件列表
         self.file_list = self.build_file_list(set, directory)
 
-        # 打印该类型数据集（ 训练 or 测试 ）的样本总数
         print('Total num of samples: ', len(self.file_list))
 
     def _load_anno(self, label):
@@ -205,9 +200,9 @@ class MyDataset():
         label = int(self.file_list[idx][0])
         anno = self._load_anno(label)
         emg = torch.FloatTensor(emg)
-        emg_len = 16 ## sequence length after conv
+        emg_len = 16 
         anno_len = anno.shape[0]
-        anno_pad = self._padding(anno, 5) ## max_length = 5
+        anno_pad = self._padding(anno, 5) 
 
         return emg, torch.LongTensor(anno_pad), anno_len, emg_len
 
