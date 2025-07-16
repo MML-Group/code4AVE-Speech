@@ -4,32 +4,54 @@
 
 ## Abstract
 
-The global aging population faces considerable challenges, particularly in communication, due to the prevalence of hearing and speech impairments. To address these, we introduce the AVE speech, a comprehensive multi-modal dataset for speech recognition tasks. The dataset includes a 100-sentence Mandarin corpus with audio signals, lip-region video recordings, and six-channel electromyography (EMG) data, collected from 100 participants. Each subject read the entire corpus ten times, with each sentence averaging approximately two seconds in duration, resulting in over 55 hours of multi-modal speech data per modality. Experiments demonstrate that combining these modalities significantly improves recognition performance, particularly in cross-subject and high-noise environments. To our knowledge, this is the first publicly available sentence-level dataset integrating these three modalities for large-scale Mandarin speech recognition. We expect this dataset to drive advancements in both acoustic and non-acoustic speech recognition research, enhancing cross-modal learning and human-machine interaction.
+AVE Speech is a large-scale Mandarin speech corpus that pairs synchronized audio, lip video and surface electromyography (EMG) recordings. The dataset contains 100 sentences read by 100 native speakers. Each participant repeated the full corpus ten times, yielding over **55 hours** of data per modality. These complementary signals enable research on robust acoustic and non-acoustic speech recognition.
 
-## AVE Speech Dataset – Source Code
+## Dataset
+- **Modality coverage**: 16 kHz audio, 60x88x88 grayscale lip videos and six-channel EMG signals sampled at 1 kHz.
+- **Download**: 👉 [AVE-Speech dataset on Hugging Face](https://huggingface.co/datasets/MML-Group/AVE-Speech).
+- **Structure**: recordings are organised by subject and session, e.g.
+```
+dataset_root/phase
+├─ subject_01/
+│  ├─ session_01/
+│  │  ├─ 0001.wav    # audio
+│  │  ├─ 0001.avi    # lip video
+│  │  └─ 0001.mat    # EMG
+│  └─ ...
+```
 
-This repository contains the source code for *AVE Speech: A Comprehensive Multi-Modal Dataset for Speech Recognition Integrating Audio, Visual, and Electromyographic Signals*.
-
-The dataset is available at:
-👉 [AVE-Speech Dataset on Hugging Face](https://huggingface.co/datasets/MML-Group/AVE-Speech)
-
-## Implementation
-Included codelines can be used for two speech recognition tasks, i.e., word-level continuous speech recognition (CSR) and sentence-level speech classification (CLS). 
-
-Dataset preparation steps for mentioned tasks can be found in the CLS_fusion and CSR_fusion folders, and corresponding changes can be made to fulfill particular requirements upon your settings.  
-
-## Main Modules
-
-- **CLS_**: Sentence-level speech classification with audio, EMG, visual and fusion models.
-- **CSR_**: Word-level continuous speech recognition with audio, EMG, visual and fusion models.
+## Repository Layout
+- `CLS_*` – sentence-level speech classification models for individual modalities and their fusion.
+- `CSR_*` – word-level continuous speech recognition models.
+- `pretrained-models/` – checkpoints for both tasks.
+ 
 
 ## Environment Setup
+```bash
 conda create -n ave_speech python=3.8 -y
-
 conda activate ave_speech
-
+pip install -r requirements.txt
+```
+Clone this repository after activating the environment:
+```bash
 git clone https://github.com/MML-Group/code4AVE-Speech.git
+```
 
+## Sentence-Level Classification (CLS)
+Run any of the modality-specific or fusion models using the provided scripts. Example for the audio-only baseline:
+```bash
+python CLS_audio_only/main.py --dataset /path/to/dataset_root --batch-size 36 --epochs 20
+```
+Replace `CLS_audio_only` with `CLS_emg_only`, `CLS_lip_only`, or `CLS_fusion` to train other variants. Pre-trained models can be loaded using `--path`.
+
+## Word-Level Continuous Speech Recognition (CSR)
+The continuous recognition models follow a similar interface. For instance, to train the multi-modal fusion model:
+```bash
+python CSR_fusion/main_fusion_AVEdataset.py --dataset /path/to/dataset_root --batch-size 32 --epochs 50
+```
+The audio-only, EMG-only, and lip-only baselines reside in `CSR_audio_only`, `CSR_emg_only`, and `CSR_lip_only`, respectively.
+
+Pre-trained checkpoints for both tasks are available in `pretrained-models/` and can be specified via the corresponding `--path` arguments.
 
 ## Citation
 If you use the source code in your work, please cite it as:
