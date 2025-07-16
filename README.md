@@ -55,7 +55,7 @@ Pre-trained checkpoints for both tasks are available in `pretrained-models/` and
 
 ## Citation
 If you use the source code in your work, please cite it as:
-```
+```bibtex
 @article{zhou2025ave,
   title={AVE Speech: A Comprehensive Multi-Modal Dataset for Speech Recognition Integrating Audio, Visual, and Electromyographic Signals},
   author={Zhou, Dongliang and Zhang, Yakun and Wu, Jinghan and Zhang, Xingyu and Xie, Liang and Yin, Erwei},
